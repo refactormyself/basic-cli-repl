@@ -2,4 +2,5 @@ dd*
 cmake*
 .idea
 .vscode
+build
 notes.md

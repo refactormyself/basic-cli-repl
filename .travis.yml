@@ -1,0 +1,26 @@
+language: cpp
+
+arch:
+  - amd64
+  - arm64
+
+os: linux
+dist: bionic
+sudo: true
+
+compiler:
+  - clang
+  - gcc
+
+addons:
+  apt:
+    sources: 
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-bionic-7.0
+    packages: 
+      - gcc-7
+      - g++-7
+      - clang-7
+
+script:
+  - ./run.sh
