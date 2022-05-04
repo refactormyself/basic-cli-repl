@@ -6,9 +6,13 @@ echo "******* Using the very basic CMake setup *******"
 mkdir build
 cd build
 cmake ..
+make
 make test
-./app
-cd $INIT_DIR 
+./test/app_tests
+./app --version
+./app --help
+
+cd $INIT_DIR
 #rm -rf build
 
 # echo

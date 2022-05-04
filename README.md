@@ -1,16 +1,28 @@
-# A basic demo of Unit Testing in C++ using Google's free [Gtest](https://google.github.io/googletest/)
-[![Build Status](https://app.travis-ci.com/refactormyself/basic-gtest.svg?branch=main)](https://app.travis-ci.com/refactormyself/basic-gtest)
+# A basic command line app demo using the [cli11 library](https://cliutils.github.io/CLI11/)
+[![Build Status](https://app.travis-ci.com/refactormyself/basic-cli-util.svg?branch=main)](https://app.travis-ci.com/refactormyself/basic-cli-util)
 
-The project is testing an my [basic visitor pattern demo](https://github.com/refactormyself/visitor-pattern). I made notes on this pattern [here](www.refactored.live/notes/visitor-pattern-cpp).
+The project extends the [basic gtest demo](https://github.com/refactormyself/basic-gtest). <s>Extended notes is [here](www.refactored.live/notes/basic-cli-app-cpp).</s>
 
-No need to install gtest because of the use of Cmake's *FetchContent* feature to clone and setup gtest. The test's CMakeList is isolated in its subdirectory which the top-level adds with `add_subdirectory(test)`, however with this setup it can be a separate project on its own.
+### What does the app do?
+The app simulates a fictitious zoo which has only CATs, DOGs and PENGUINs!
+- list the available animals: `$ app -l`
+- list all possible operations/actions by an animal: `$ app -l -a "cat"`
+- Make an animal perform an action: `$ app -a "cat" -o "talk"`
+- Show app version: `$ app --version`
+- Show help: `$ app --help`
 
-The travis setup also builds for *clang* and *gcc* on *amd64* and *arm64*.
-#### This Project also illustrates very basic stuffs like
+This is just a very functionality that come with the  [cli11 library](https://cliutils.github.io/CLI11/).
+It is quite powerful, helping to lift the boilerplate of handling command line args. I have used the
+[LLVM's command line tool](https://llvm.org/doxygen/CommandLine_8h_source.html), I prefer the cli11 library to it.
+The only downside is if you plan to upstream into llvm.
+
+### The Project also illustrates very basic stuffs like
+- Command Line handling using a robust library like the [cli11 library](https://cliutils.github.io/CLI11/)
+- Some C++ OOP stuff
 - CMakeList file: [Top-level](./CMakeLists.txt) and [Test with gtest cmake setup](./test/CMakeLists.txt)
 - [MakeFile](./Makefile) *(not used)*
 - [Travis CI yaml file](./.travis.yml)
 
 ### Try it out
-Just clone and run this script: `. ./run.sh`   
-Nothing fancy, the focus is the pattern and basic tool setup.
+Just clone and to build run this script: `. ./run.sh`   
+The name is **app**, see above for sample usage or `$./app --help`
