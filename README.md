@@ -10,11 +10,18 @@ The app simulates a fictitious zoo which has only CATs, DOGs and PENGUINs!
 - Make an animal perform an action: `$ app -a "cat" -o "talk"`
 - Show app version: `$ app --version`
 - Show help: `$ app --help`
+- Pass in a file of animal and action: `$ app -i data.txt` OR `$ app data.txt`   
+    sample content of *data.txt*:
+    ```
+    cat walk
+    dog talk
+    penguin swim
+    ```
 
 This is just a very functionality that come with the  [cli11 library](https://cliutils.github.io/CLI11/).
 It is quite powerful, helping to lift the boilerplate of handling command line args. I have used the
-[LLVM's command line tool](https://llvm.org/doxygen/CommandLine_8h_source.html), I prefer the cli11 library to it.
-The only downside is if you plan to upstream into llvm.
+[LLVM's command line tool](https://llvm.org/doxygen/CommandLine_8h_source.html), but I prefer the cli11 library to it.
+The only downside is that is not llvm stuff, which matters if you plan to upstream into llvm.
 
 ### The Project also illustrates very basic stuffs like
 - Command Line handling using a robust library like the [cli11 library](https://cliutils.github.io/CLI11/)

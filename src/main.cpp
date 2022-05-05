@@ -50,7 +50,10 @@ int main(int argc, char **argv) {
 void handleCommands(CLI::App &app) {
     // input file (positional)
     CLI::Option *inputOpt = app.add_option("-i,--in,file",
-                                           FILENAME, "Input File name");
+                                           FILENAME,
+                                           "Input File name. The file contains two space delimited "
+                                           "strings per each line.\nIt of the form <animal> <action>."
+                                           " e.g: `cat talk`");
     CLI::Option *listFlag = app.add_flag("-l,--list", LIST_FLAG,
                                      "lists all available animals.\n"
                                      "If the `--animal` option is set; lists all possible actions.");
@@ -67,7 +70,31 @@ void visitZoo(CLI::App &app) {
 //    - @animal-x perform operation-y
 
     if (!FILENAME.empty()){
+        if (!ACTION_OPTION.empty() || !ACTION_OPTION.empty() || LIST_FLAG > 0){
+            std::cout << "You have set the input file: " << FILENAME
+                      << ".\nOther flags and options cannot be used with the file input option.\n"
+                         "Please, use `--help` to see usage." <<'\n';
+            return;
+        }
+
         // handle file
+        std::ifstream fileStrm;
+        fileStrm.open(FILENAME);
+        if(!fileStrm) {
+            std::cerr << "Error: the supplied file: "<< FILENAME << " could not be opened!" << std::endl;
+            exit(1);
+        }
+
+        std::string codeLine;
+        while (std::getline(fileStrm, codeLine)) {
+            std::istringstream iss(codeLine);
+            std::string animal, action;
+            std::getline(iss, animal, ' ' );
+            std::getline(iss, action, ' ' );
+
+            std::cout << Zoo::performAction(animal, action) << '\n';
+        }
+        return;
     }
 
     if (!ACTION_OPTION.empty() && LIST_FLAG > 0){
@@ -98,10 +125,9 @@ void visitZoo(CLI::App &app) {
     }
 
     if (!ACTION_OPTION.empty() && !ANIMAL_OPTION.empty())
-        Zoo::performAction(ANIMAL_OPTION, ACTION_OPTION);
+        std::cout << Zoo::performAction(ANIMAL_OPTION, ACTION_OPTION)  <<'\n';
 
 }
-
 
 void visitAnimals() {
     Talk talk;
