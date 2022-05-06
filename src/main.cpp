@@ -16,6 +16,8 @@ void visitAnimals();
 void visitZoo(CLI::App &app);
 void handleCommands(CLI::App &app);
 
+void processCodeLine(const std::string &codeLine);
+
 using namespace anim;
 using namespace app;
 
@@ -25,8 +27,10 @@ int main(int argc, char **argv) {
     std::string APP_VERSION = "0.00.0";
 
     // describe the app
-    CLI::App app("This is a basic command line app, that simulate a visit to a fictitious zoo!"
-                 "\nIt uses the cli11 library: cliutils.github.io/CLI11/");
+    CLI::App app("This is a basic command line REPL app, that simulate a visit to a fictitious zoo!"
+                 "\nIt uses the cli11 library: cliutils.github.io/CLI11/"
+                 "\n Basic use: <app> animal action"
+                 "\n       e.g: <app> cat walk");
 
     // set therespoce to  --version
     app.set_version_flag("--version",
@@ -87,12 +91,7 @@ void visitZoo(CLI::App &app) {
 
         std::string codeLine;
         while (std::getline(fileStrm, codeLine)) {
-            std::istringstream iss(codeLine);
-            std::string animal, action;
-            std::getline(iss, animal, ' ' );
-            std::getline(iss, action, ' ' );
-
-            std::cout << Zoo::performAction(animal, action) << '\n';
+            processCodeLine(codeLine);
         }
         return;
     }
@@ -127,6 +126,45 @@ void visitZoo(CLI::App &app) {
     if (!ACTION_OPTION.empty() && !ANIMAL_OPTION.empty())
         std::cout << Zoo::performAction(ANIMAL_OPTION, ACTION_OPTION)  <<'\n';
 
+    // All valid args have been handled, so drop to REPL mode
+    // NOTE that the parsing is done at line level even in none REPL mode: `$ app -i data.txt`
+
+    std::cout << "This is the REPL mode.\n"
+              << "In Built commands are: `help()`, `exit()`, `list()`"
+              << std::endl;
+
+    std::string tokenLine; // NOTE: I am not breaking the line into tokens here.
+
+//    fprintf(stderr, "<app> ");
+    std::cout << "<app> ";
+    while (getline(std::cin, tokenLine)) { // stops at EOF or error
+        if (tokenLine == "exit()")
+            break;
+
+        if (tokenLine == "help()") {
+            std::cout << app.get_description();
+            tokenLine = "list()"; // fall through to next if-statement
+        }
+
+        if (tokenLine == "list()") {
+            std::cout << '\n' << "List of animals: 'cat', 'dog', 'penguin'"
+                      << '\n' << "List of possible actions: 'talk', 'walk', 'swim'\n";
+            std::cout << "<app> ";
+            continue;
+        }
+
+        processCodeLine(tokenLine);
+        fprintf(stderr, "<app> ");
+    }
+}
+
+void processCodeLine(const std::string &codeLine) {
+    std::istringstream iss(codeLine);
+    std::string animal, action;
+    std::getline(iss, animal, ' ' );
+    std::getline(iss, action, ' ' );
+
+    std::cout << Zoo::performAction(animal, action) << '\n';
 }
 
 void visitAnimals() {
