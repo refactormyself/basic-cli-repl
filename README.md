@@ -29,7 +29,7 @@ It drops to the app's REPL console `<app> _`
     penguin swim
     ```
 
-This is just a very functionality that come with the  [cli11 library](https://cliutils.github.io/CLI11/).
+I have only utilised the basic functionalities of the  [cli11 library](https://cliutils.github.io/CLI11/).
 It is quite powerful, helping to lift the boilerplate of handling command line args. I have used the
 [LLVM's command line tool](https://llvm.org/doxygen/CommandLine_8h_source.html), but I prefer the cli11 library to it.
 The only downside is that is not llvm stuff, which matters if you plan to upstream into llvm.
@@ -43,7 +43,9 @@ The only downside is that is not llvm stuff, which matters if you plan to upstre
 - CMakeList file: [Top-level](./CMakeLists.txt) and [Test with gtest cmake setup](./test/CMakeLists.txt)
 - [MakeFile](./Makefile) *(not used)*
 - [Travis CI yaml file](./.travis.yml)
+- Basic Dockerised C++ app: the [Dockerfile](./x86.Dockerfile) and the [script](./docker-run.sh) to build and run it.
 
 ### Try it out
 Just clone and to build run this script: `. ./run.sh`   
+To build and run in docker use this: `. ./docker-run.sh`    
 The name is **app**, see above for sample usage. REPL mode: `$ app`. Non-REPL mode: `$./app --help`
